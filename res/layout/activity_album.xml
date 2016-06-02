@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:clipToPadding="true"
+              android:orientation="vertical"
+              android:padding="@dimen/dimen_2"
+              tools:context="com.xter.picbrowser.AlbumActivity">
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/album_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ListView
+            android:id="@+id/lv_album_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:background="@color/darkgrey2"
+            android:choiceMode="singleChoice"
+            android:divider="@color/transparent"/>
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>

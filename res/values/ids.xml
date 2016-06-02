@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="imageloader_uri" type="id"/>
+    <item name="scrollview_album" type="id"/>
+    <item name="view_space" type="id"/>
+    <item name="action_settings" type="id"/>
+    <item name="action_search" type="id"/>
+    <item name="action_camera" type="id"/>
+    <item name="action_mode" type="id"/>
+    <item name="action_sort" type="id"/>
+    <item name="action_add" type="id"/>
+    <item name="action_fullscreen" type="id"/>
+    <item name="action_detail" type="id"/>
+    <item name="action_auto_play" type="id"/>
+
+    <item name="btn_ok" type="id"/>
+
+    <item name="tv_header" type="id"/>
+    <item name="tv_content" type="id"/>
+</resources>

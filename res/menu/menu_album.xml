@@ -1,0 +1,43 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".AlbumActivity" >
+
+  <!--   <item
+        android:id="@id/action_search"
+        android:icon="@mipmap/search"
+        android:orderInCategory="1"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_search"/>
+    <item
+        android:id="@id/action_camera"
+        android:icon="@mipmap/camera"
+        android:orderInCategory="2"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_camera"/> -->
+    <item
+        android:id="@id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
+    <!-- <item
+        android:id="@id/action_mode"
+        android:orderInCategory="3"
+        android:showAsAction="never"
+        android:title="@string/action_mode"/>
+    <item
+        android:id="@id/action_sort"
+        android:orderInCategory="4"
+        android:showAsAction="never"
+        android:title="@string/action_sort"/>
+    <item
+        android:id="@id/action_add"
+        android:orderInCategory="5"
+        android:showAsAction="never"
+        android:title="@string/action_add"/>
+    <item
+        android:id="@id/action_fullscreen"
+        android:orderInCategory="6"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_fullscreen"/> -->
+
+</menu>

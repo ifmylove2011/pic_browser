@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">图片浏览</string>
+
+    <!-- action_bar menu -->
+    <string name="action_settings">设置</string>
+    <string name="action_search">搜索</string>
+    <string name="action_sort">排序</string>
+    <string name="action_mode">模式</string>
+    <string name="action_add">添加</string>
+    <string name="action_rename">重命名</string>
+    <string name="action_fullscreen">全屏</string>
+
+    <string name="action_detail">详情</string>
+    <string name="action_auto_play">幻灯片</string>
+
+    <!-- button -->
+    <string name="btn_ok">确定</string>
+
+    <string-array name="info_header">
+        <item>路径</item>
+        <item>分辨率</item>
+        <item>大小</item>
+        <item>日期</item>
+    </string-array>
+
+    <string-array name="menu_text">
+        <item>文件夹</item>
+        <item>时间轴</item>
+        <item>设置</item>
+    </string-array>
+    <string name="title_activity_demo">DemoActivity</string>
+
+</resources>

@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/dimen_5"
+                tools:context="com.xter.picbrowser.fragment.ImageInfoFragment">
+
+    <TextView
+        android:id="@+id/tv_image_index"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textSize="@dimen/text_28"/>
+
+    <ListView
+        android:id="@+id/lv_image_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_image_index"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:footerDividersEnabled="false"
+        />
+
+    <Button
+        android:id="@id/btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/lv_image_info"
+        android:text="@string/btn_ok"/>
+</RelativeLayout>

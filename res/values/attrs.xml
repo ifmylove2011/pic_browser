@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="horizontal_padding" format="dimension|reference"/>
+    <attr name="vertical_padding" format="dimension|reference"/>
+    <attr name="layout_horizontal_padding" format="dimension|reference"/>
+    <attr name="layout_vertical_padding" format="dimension|reference"/>
+    <attr name="name" format="string"/>
+    <attr name="count" format="integer"/>
+    <attr name="columns" format="integer" />
+
+    <declare-styleable name="CascadeAlbum">
+        <attr name="horizontal_padding"/>
+        <attr name="vertical_padding"/>
+        <attr name="name"/>
+        <attr name="count"/>
+    </declare-styleable>
+
+    <declare-styleable name="CascadeAlbum_LayoutParam">
+        <attr name="layout_vertical_padding"/>
+        <attr name="layout_horizontal_padding"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="CascadeView">
+        <attr name="columns" />
+        <attr name="count" />
+    </declare-styleable>
+
+</resources>
