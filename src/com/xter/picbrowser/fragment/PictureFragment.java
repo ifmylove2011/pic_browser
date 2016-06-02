@@ -93,6 +93,7 @@ public class PictureFragment extends Fragment {
 					}
 					break;
 				}
+				return;
 			}
 		};
 		// 初始化内容
@@ -106,12 +107,11 @@ public class PictureFragment extends Fragment {
 		// 适配器
 		vpPics.setAdapter(new PictureAdpater(mContext, views, photos));
 		// 监听器
-		vpPics.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-			@Override
-			public void onPageSelected(int position) {
-				mHandler.obtainMessage(SCROLL, position).sendToTarget();
-			}
-		});
+//		vpPics.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+//			@Override
+//			public void onPageSelected(int position) {
+//			}
+//		});
 	}
 
 	@Override
@@ -161,15 +161,10 @@ public class PictureFragment extends Fragment {
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-		mHandler.removeMessages(AUTO_PLAY);
-		mHandler.removeMessages(SCROLL);
-	}
-
-	@Override
 	public void onStop() {
 		super.onStop();
+		mHandler.removeMessages(AUTO_PLAY);
+		mHandler.removeMessages(SCROLL);
 		onPictureStateListener.onPictureState(false);
 		getActivity().getActionBar().setTitle(folderName);
 	}
