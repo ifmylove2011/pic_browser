@@ -4,6 +4,7 @@ import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -38,6 +39,7 @@ public class BitmapUtils {
 			while ((h / inSampleSize) >= reqHeight && (w / inSampleSize) >= reqWidth)
 				inSampleSize *= 2;
 		}
+		LogUtils.i("inSampleSize:"+inSampleSize);
 		return inSampleSize;
 	}
 
@@ -121,6 +123,17 @@ public class BitmapUtils {
 		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
 		options.inJustDecodeBounds = false;
+		return BitmapFactory.decodeFileDescriptor(fd, null, options);
+	}
+	
+	public static Bitmap decodeBitmapFromFileDescriptor(FileDescriptor fd)
+			throws IOException {
+		@SuppressWarnings("resource")
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		options.inPreferredConfig = Bitmap.Config.RGB_565;
+		options.inJustDecodeBounds = false;
+		LogUtils.d("加载原图");
 		return BitmapFactory.decodeFileDescriptor(fd, null, options);
 	}
 
