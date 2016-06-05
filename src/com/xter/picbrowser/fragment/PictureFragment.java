@@ -1,7 +1,17 @@
 package com.xter.picbrowser.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.xter.picbrowser.R;
+import com.xter.picbrowser.adapter.PictureAdpater;
+import com.xter.picbrowser.element.Photo;
+import com.xter.picbrowser.util.LogUtils;
+
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,14 +22,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.xter.picbrowser.R;
-import com.xter.picbrowser.adapter.PictureAdpater;
-import com.xter.picbrowser.element.Photo;
-import com.xter.picbrowser.util.LogUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass. 单独显示某张图片，使用了viewpager
@@ -33,6 +35,7 @@ public class PictureFragment extends Fragment {
 	public static final int DELAY_TIME = 2000;
 	public static final int SCROLL = 1;
 	public static final int AUTO_PLAY = 2;
+	public static final int SHARE = 3;
 
 	private ViewPager vpPics;
 	private List<Photo> photos;
@@ -92,6 +95,11 @@ public class PictureFragment extends Fragment {
 						mHandler.sendMessageDelayed(mHandler.obtainMessage(AUTO_PLAY, curIndex), DELAY_TIME);
 					}
 					break;
+				case SHARE:
+					LogUtils.i("share");
+					shareImg(getString(R.string.action_share),
+							Uri.parse("file://" + photos.get(vpPics.getCurrentItem()).getPath()));
+					break;
 				}
 				return;
 			}
@@ -107,11 +115,29 @@ public class PictureFragment extends Fragment {
 		// 适配器
 		vpPics.setAdapter(new PictureAdpater(mContext, views, photos));
 		// 监听器
-//		vpPics.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-//			@Override
-//			public void onPageSelected(int position) {
-//			}
-//		});
+		// vpPics.addOnPageChangeListener(new
+		// ViewPager.SimpleOnPageChangeListener() {
+		// @Override
+		// public void onPageSelected(int position) {
+		// }
+		// });
+	}
+
+	// 分享图片
+	protected void shareImg(String dlgTitle, Uri uri) {
+		if (uri == null) {
+			return;
+		}
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("image/*");
+		intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+		// 设置弹出框标题
+		if (dlgTitle != null && !"".equals(dlgTitle)) { // 自定义标题
+			startActivity(Intent.createChooser(intent, dlgTitle));
+		} else { // 系统默认标题
+			startActivity(intent);
+		}
 	}
 
 	@Override
@@ -137,6 +163,9 @@ public class PictureFragment extends Fragment {
 		case R.id.action_auto_play:
 			onPictureStateListener.onPictureState(true);
 			mHandler.obtainMessage(AUTO_PLAY, vpPics.getCurrentItem()).sendToTarget();
+			return true;
+		case R.id.action_share:
+			mHandler.obtainMessage(SHARE).sendToTarget();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
