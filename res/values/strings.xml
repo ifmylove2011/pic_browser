@@ -12,6 +12,7 @@
 
     <string name="action_detail">详情</string>
     <string name="action_auto_play">幻灯片</string>
+    <string name="action_share">分享</string>
 
     <!-- button -->
     <string name="btn_ok">确定</string>

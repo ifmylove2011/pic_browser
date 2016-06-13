@@ -284,10 +284,14 @@ public class ImageLoader {
 		if (snapShot != null) {
 			FileInputStream fileInputStream = (FileInputStream) snapShot.getInputStream(DISK_CACHE_INDEX);
 			FileDescriptor fileDescriptor = fileInputStream.getFD();
-			if (mIsSquare)
-				bitmap = BitmapUtils.getSquareBitmapFromFileDescriptor(fileDescriptor, reqWidth, reqHeight);
-			else
-				bitmap = BitmapUtils.decodeBitmapFromFileDescriptor(fileDescriptor, reqWidth, reqHeight);
+			if (reqWidth == 0 && reqHeight == 0) {//加载原图
+				bitmap = BitmapUtils.decodeBitmapFromFileDescriptor(fileDescriptor);
+			} else {
+				if (mIsSquare)
+					bitmap = BitmapUtils.getSquareBitmapFromFileDescriptor(fileDescriptor, reqWidth, reqHeight);
+				else
+					bitmap = BitmapUtils.decodeBitmapFromFileDescriptor(fileDescriptor, reqWidth, reqHeight);
+			}
 			if (bitmap != null)
 				addBitmapToMemoryCache(key, bitmap);
 		}

@@ -43,7 +43,7 @@ public class ContextUtils extends Application {
 //				.diskCacheSize(50 * 1024 * 1024)
 				.diskCache(new UnlimitedDiskCache(StorageUtils.getOwnCacheDirectory(getApplicationContext(), "img/cache")))
 //				.diskCacheFileCount(100)
-				.tasksProcessingOrder(QueueProcessingType.LIFO)
+				.tasksProcessingOrder(QueueProcessingType.FIFO)
 				.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
 				.imageDownloader(new BaseImageDownloader(this, 5 * 1000, 10 * 1000))
 //				.writeDebugLogs()

@@ -1,5 +1,7 @@
 package com.xter.picbrowser.adapter;
 
+import com.xter.picbrowser.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.xter.picbrowser.R;
-
-import java.util.zip.Inflater;
 
 /**
  * Created by XTER on 2016/1/31.
