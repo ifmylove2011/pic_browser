@@ -12,9 +12,12 @@ import android.widget.AdapterView;
 import com.xter.picbrowser.R;
 import com.xter.picbrowser.adapter.FolderAdapter;
 import com.xter.picbrowser.element.Folder;
+import com.xter.picbrowser.event.FolderEvent;
 import com.xter.picbrowser.util.ImageLoader;
 import com.xter.picbrowser.util.ViewUtils;
 import com.xter.picbrowser.view.AlbumGridView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -25,15 +28,9 @@ import java.util.List;
  */
 public class FolderFragment extends Fragment {
 
-	public interface OnFolderClickListener {
-		void onFolderClick(Folder folder);
-	}
-
 	private View viewSpace;
 	private AlbumGridView gvFolderAlbum;
 	private FolderAdapter folderAdapter;
-
-	private OnFolderClickListener onFolderClickListener;
 
 	private List<Folder> folders;
 
@@ -71,7 +68,7 @@ public class FolderFragment extends Fragment {
 		gvFolderAlbum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				onFolderClickListener.onFolderClick(folders.get(position));
+				EventBus.getDefault().post(new FolderEvent(folders.get(position)));
 			}
 		});
 		//使空白区域获取焦点，避免因为gridview抢夺焦点而使其无法显示空白区域
@@ -80,16 +77,4 @@ public class FolderFragment extends Fragment {
 		viewSpace.requestFocus();
 	}
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		if (onFolderClickListener == null)
-			onFolderClickListener = (OnFolderClickListener) activity;
-	}
-	
-	@Override
-	public void onStop() {
-		super.onStop();
-//		ImageLoader.build(getActivity()).shutdown();
-	}
 }

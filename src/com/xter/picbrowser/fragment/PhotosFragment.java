@@ -11,16 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.xter.picbrowser.R;
 import com.xter.picbrowser.adapter.PhotosAdapter;
 import com.xter.picbrowser.element.Folder;
 import com.xter.picbrowser.element.Photo;
-import com.xter.picbrowser.util.ImageLoader;
+import com.xter.picbrowser.event.PhotoEvent;
 import com.xter.picbrowser.util.LogUtils;
 import com.xter.picbrowser.util.ViewUtils;
 import com.xter.picbrowser.view.AlbumGridView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -30,14 +31,8 @@ import java.util.List;
  */
 public class PhotosFragment extends Fragment {
 
-	public interface OnPhotosClickListener {
-		void onPhotosClick(List<Photo> pics, int position, String folderName);
-	}
-
 	private View viewSpace;
 	private AlbumGridView gvPhotosAlbum;
-
-	private OnPhotosClickListener onPhotosClickListener;
 
 	private List<Photo> photos;
 	private String folderName;
@@ -48,8 +43,10 @@ public class PhotosFragment extends Fragment {
 		LogUtils.i("photo fragment create");
 		Bundle bundle = getArguments();
 		Folder folder = bundle.getParcelable("folder");
-		photos = folder.getPhotos();
-		folderName = folder.getFolderName();
+		if (folder != null){
+			photos = folder.getPhotos();
+			folderName = folder.getFolderName();
+		}
 	}
 
 	@Override
@@ -72,17 +69,14 @@ public class PhotosFragment extends Fragment {
 	}
 
 
-
 	protected void initData() {
 		PhotosAdapter photosAdapter = new PhotosAdapter(getActivity(), photos);
 		gvPhotosAlbum.setAdapter(photosAdapter);
 
-//		gvPhotosAlbum.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true));
-
 		gvPhotosAlbum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				onPhotosClickListener.onPhotosClick(photos, position, folderName);
+				EventBus.getDefault().post(new PhotoEvent(photos, position, folderName));
 			}
 		});
 
@@ -111,13 +105,6 @@ public class PhotosFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		if (onPhotosClickListener == null)
-			onPhotosClickListener = (OnPhotosClickListener) activity;
-	}
-
-	@Override
 	public void onStart() {
 		super.onStart();
 		getActivity().setTitle(folderName);
@@ -127,6 +114,6 @@ public class PhotosFragment extends Fragment {
 	public void onStop() {
 		super.onStop();
 		getActivity().getActionBar().setTitle(getString(R.string.app_name));
-//			ImageLoader.build(getActivity()).shutdown();
 	}
+
 }

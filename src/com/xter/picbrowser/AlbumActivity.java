@@ -3,13 +3,15 @@ package com.xter.picbrowser;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xter.picbrowser.adapter.DrawerMenuAdpater;
 import com.xter.picbrowser.adapter.PictureAdpater;
 import com.xter.picbrowser.data.DataLayer;
 import com.xter.picbrowser.demo.DemoActivity;
 import com.xter.picbrowser.element.Folder;
 import com.xter.picbrowser.element.Photo;
+import com.xter.picbrowser.event.FolderEvent;
+import com.xter.picbrowser.event.PhotoEvent;
+import com.xter.picbrowser.event.StateEvent;
 import com.xter.picbrowser.fragment.FolderFragment;
 import com.xter.picbrowser.fragment.PhotosFragment;
 import com.xter.picbrowser.fragment.PictureFragment;
@@ -36,8 +38,11 @@ import android.view.Window;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-public class AlbumActivity extends Activity implements FolderFragment.OnFolderClickListener, PhotosFragment.OnPhotosClickListener, PictureAdpater.OnPhotoViewClickListener, PictureFragment.OnPictureStateListener {
+
+public class AlbumActivity extends Activity{
 
 	//全屏flag
 	public static int FULLSCREEN_STATE = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.INVISIBLE;
@@ -54,6 +59,7 @@ public class AlbumActivity extends Activity implements FolderFragment.OnFolderCl
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		EventBus.getDefault().register(this);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_album);
 		initSystemBar();
@@ -131,36 +137,36 @@ public class AlbumActivity extends Activity implements FolderFragment.OnFolderCl
 		}
 	}
 
-	@Override
-	public void onFolderClick(Folder folder) {
-		if (photosFragment == null) {
-			photosFragment = new PhotosFragment();
-		}
-		//准备传递数据
-		Bundle bundle = new Bundle();
-		bundle.putParcelable("folder", folder);
-		photosFragment.setArguments(bundle);
-
-		switchContent(folderFragment, photosFragment, "photos");
-	}
-
-	@Override
-	public void onPhotosClick(List<Photo> pics, int position, String folderName) {
+	@Subscribe
+	public void onEventMainThread(PhotoEvent event) {
 		if (pictureFragment == null) {
 			pictureFragment = new PictureFragment();
 		}
 		Bundle bundle = new Bundle();
-		bundle.putParcelableArrayList("pics", (ArrayList<? extends Parcelable>) pics);
-		bundle.putInt("pos", position);
-		bundle.putString("folderName", folderName);
+		bundle.putParcelableArrayList("pics", (ArrayList<? extends Parcelable>) event.getPics());
+		bundle.putInt("pos", event.getPosition());
+		bundle.putString("folderName", event.getFolderName());
 		pictureFragment.setArguments(bundle);
 
 		switchContent(photosFragment, pictureFragment, "pic");
 	}
 
-	@Override
-	public void onPhotoViewClick() {
-		changeScreenState(true);
+	@Subscribe
+	public void onEventMainThread(FolderEvent event){
+		if (photosFragment == null) {
+			photosFragment = new PhotosFragment();
+		}
+		//准备传递数据
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("folder", event.getFolder());
+		photosFragment.setArguments(bundle);
+
+		switchContent(folderFragment, photosFragment, "photos");
+	}
+
+	@Subscribe
+	public void onEventMainThread(StateEvent event){
+		changeScreenState(event.isState());
 	}
 
 	/**
@@ -175,13 +181,13 @@ public class AlbumActivity extends Activity implements FolderFragment.OnFolderCl
 		// 先判断是否被add过
 		if (!to.isAdded()) {
 			// 隐藏当前的fragment，add下一个到Activity中
-			ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+//			ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
 			ft.hide(from).add(R.id.album_content, to, tag);
 			ft.addToBackStack(null);
 			ft.commit();
 		} else {
 			// 隐藏当前的fragment，show下一个
-			ft.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
+//			ft.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
 			ft.hide(from).show(to);
 			ft.commit();
 		}
@@ -293,17 +299,6 @@ public class AlbumActivity extends Activity implements FolderFragment.OnFolderCl
 	}
 
 
-	@Override
-	public void onPictureState(boolean state) {
-		changeScreenState(state);
-	}
-
-	@Override
-	protected void onDestroy() {
-		ImageLoader.getInstance().clearMemoryCache();
-		super.onDestroy();
-	}
-
 	/**
 	 * 加载查询任务
 	 */
@@ -325,4 +320,9 @@ public class AlbumActivity extends Activity implements FolderFragment.OnFolderCl
 		}
 	}
 
+	@Override
+	protected void onDestroy() {
+		EventBus.getDefault().unregister(this);
+		super.onDestroy();
+	}
 }

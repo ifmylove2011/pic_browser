@@ -93,5 +93,5 @@
 # keep order of jars
 -ignorewarnings
 -libraryjars libs/android-support-v4.jar
--libraryjars libs/universal-image-loader-1.9.5.jar
+-libraryjars libs/eventbus-3.0.0.jar
  

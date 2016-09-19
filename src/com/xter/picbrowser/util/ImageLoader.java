@@ -184,8 +184,8 @@ public class ImageLoader {
 	/**
 	 * 绑定控件与位图
 	 *
-	 * @param uris
-	 * @param cascadeView
+	 * @param uri
+	 * @param iv
 	 * @param reqWidth
 	 * @param reqHeight
 	 */

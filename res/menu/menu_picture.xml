@@ -8,7 +8,7 @@
         android:title="@string/action_detail"/>
     <item
         android:id="@id/action_auto_play"
-        android:showAsAction="never"
+        android:showAsAction="ifRoom"
         android:title="@string/action_auto_play"/>
     <item
         android:id="@id/action_share"

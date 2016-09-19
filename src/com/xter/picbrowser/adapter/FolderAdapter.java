@@ -16,9 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 /**
- * Created by XTER on 2016/1/11.
- * 直接存储view以达到缓存已经下载的图片
- * 能否将viewholder和list缓存结合使用？
+ * Created by XTER on 2016/1/11. 直接存储view以达到缓存已经下载的图片 能否将viewholder和list缓存结合使用？
  */
 public class FolderAdapter extends BaseAdapter {
 
@@ -30,12 +28,12 @@ public class FolderAdapter extends BaseAdapter {
 	 * 主要传入文件夹URL值
 	 *
 	 * @param context 所依赖的上下文
-	 * @param list    文件夹
+	 * @param list 文件夹
 	 */
 	public FolderAdapter(Context context, List<Folder> list) {
 		this.layoutInflater = LayoutInflater.from(context);
 		this.folders = list;
-		loader =ImageLoader.build(context);
+		loader = ImageLoader.build(context);
 	}
 
 	@Override
@@ -62,7 +60,6 @@ public class FolderAdapter extends BaseAdapter {
 		} else {
 			view = convertView;
 		}
-
 
 		if (parent instanceof AlbumGridView) {
 			if (((AlbumGridView) parent).isOnMeasure()) {

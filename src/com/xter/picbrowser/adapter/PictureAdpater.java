@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.xter.picbrowser.R;
 import com.xter.picbrowser.element.Photo;
+import com.xter.picbrowser.event.StateEvent;
 import com.xter.picbrowser.util.ImageLoader;
 import com.xter.picbrowser.util.LogUtils;
 
@@ -13,6 +14,9 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+
+import org.greenrobot.eventbus.EventBus;
+
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -21,29 +25,21 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  */
 public class PictureAdpater extends PagerAdapter {
 
-	/* 点击图像时的对外接口 */
-	public interface OnPhotoViewClickListener {
-		void onPhotoViewClick();
-	}
-
 	private ArrayList<View> viewlist;
 	ImageLoader loader;
 	List<Photo> photos;
 
-	private OnPhotoViewClickListener onPhotoViewClickListener;
-
 	/**
 	 * @param activity 所依赖的上下文环境
 	 * @param viewlist 视图列表
-	 * @param photos 文件夹中的所有图像资源文件
+	 * @param photos   文件夹中的所有图像资源文件
 	 */
 	public PictureAdpater(Activity activity, ArrayList<View> viewlist, List<Photo> photos) {
-		if (onPhotoViewClickListener == null)
-			onPhotoViewClickListener = (OnPhotoViewClickListener) activity;
 		this.viewlist = viewlist;
 		this.photos = photos;
 		loader = ImageLoader.build(activity);
 	}
+
 
 	@Override
 	public int getCount() {
@@ -72,7 +68,7 @@ public class PictureAdpater extends PagerAdapter {
 		iv.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
 			@Override
 			public void onPhotoTap(View view, float x, float y) {
-				onPhotoViewClickListener.onPhotoViewClick();
+				EventBus.getDefault().post(new StateEvent(true));
 			}
 		});
 		String uri = "file://" + photos.get(position).getPath();
